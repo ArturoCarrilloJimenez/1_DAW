@@ -1,7 +1,7 @@
 public class CartaEspanola extends Carta {
 
-    public CartaEspanola(int palo, int valor) {
-        super(palo,valor);
+    public CartaEspanola(int valor, int palo) {
+        super(valor,palo);
     }
 
     public String toString() {

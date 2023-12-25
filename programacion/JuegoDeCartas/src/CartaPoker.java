@@ -10,16 +10,16 @@ public class CartaPoker extends Carta{
         //Switch que canbia el valor de el entero a su correspondido
         switch (super.getPalo()) {
             case 1:
-                palo = "Bellotas";
+                palo = "Picas";
                 break;
             case 2:
                 palo = "Corazones";
                 break;
             case 3:
-                palo = "Campanas";
+                palo = "Treboles";
                 break;
             case 4:
-                palo = "Pastos";
+                palo = "Diamantes";
                 break;
         }
 

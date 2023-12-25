@@ -1,7 +1,7 @@
 public class CartaAlemana extends Carta {
 
-    public CartaAlemana(int palo, int valor) {
-        super(palo,valor);
+    public CartaAlemana(int valor, int palo) {
+        super(valor,palo);
     }
 
     public String toString() {
@@ -10,16 +10,16 @@ public class CartaAlemana extends Carta {
         //Switch que canbia el valor de el entero a su correspondido
         switch (super.getPalo()) {
             case 1:
-                palo = "Picas";
+                palo = "Bellotas";
                 break;
             case 2:
                 palo = "Corazones";
                 break;
             case 3:
-                palo = "Treboles";
+                palo = "Campanas";
                 break;
             case 4:
-                palo = "Diamantes";
+                palo = "Pastos";
                 break;
         }
 
