@@ -16,7 +16,17 @@ public class Pruebas {
         baraja.barajar();
 
         for (int i = 0;i < 60;i++) {
-            System.out.println(baraja.siguiente());
+            baraja.siguiente();
         }
+
+        baraja.reiniciar();
+
+        for (int i = 0;i < 50;i++) {
+            baraja.siguiente();
+        }
+
+        System.out.println(baraja.numCartas());
+
+        System.out.println(baraja.toString());
     }
 }

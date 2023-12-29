@@ -1,13 +1,20 @@
 public class Baraja {
 
     private Carta[] baraja;
-    private int posicionCarta;
+    private int posicionCarta, tipo;
 
     public Baraja(int tipo) {
+        this.tipo = tipo;
+
+        inicializar();
+    }
+
+    //Inicializa la baraja
+    private void inicializar() {
 
         posicionCarta = 0;
 
-        switch (tipo) {
+        switch (this.tipo) {
             case 1:
                 barajaPoker();
                 break;
@@ -94,5 +101,48 @@ public class Baraja {
         posicionCarta++;
 
         return cartaActual;
+    }
+
+    //Reinicia la baraja
+    public void reiniciar() {
+        inicializar();
+    }
+
+    //Mustra el numero de cartas sin usar
+    public int numCartas() {
+        int acomulador = 0;
+
+        for (int i = 0; i < baraja.length; i++){
+            if (baraja[i] != null){
+                acomulador++;
+            }
+        }
+
+        return acomulador;
+    }
+
+    //Devuelve un array de cartas que queden por salir
+    public Carta[] getBaraja() {
+        Carta[] barajaCartasRestantes = new Carta[numCartas()];
+
+        for (int i = 0,j = 0; i < baraja.length; i++){
+            if (baraja[i] != null){
+                barajaCartasRestantes[j] = baraja[i];
+                j++;
+            }
+        }
+
+        return barajaCartasRestantes;
+    }
+
+    public String toString() {
+        String barajaString = "";
+        Carta[] barajaCartas = getBaraja();
+
+        for (int i = 0;i < barajaCartas.length;i++) {
+            barajaString = barajaString + barajaCartas[i].toString() + "\n";
+        }
+
+        return barajaString;
     }
 }
