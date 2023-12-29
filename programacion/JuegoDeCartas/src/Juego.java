@@ -58,8 +58,8 @@ public class Juego {
         return opciones;
     }
 
-    //Crear baraja y barajar
-    public static void crarBaraja() {
+    //Elegir tipo
+    public static void elegirTipo() {
         System.out.println("\nDe que tipo quieres crear la baraja");
         System.out.println("1- Baraja de poker");
         System.out.println("2- Baraja española");
@@ -72,6 +72,11 @@ public class Juego {
             tipo = escribirNumero();
         } while ((tipo < 1) || (tipo > 3));
 
+        crarBaraja(tipo);
+    }
+
+    //Crear baraja y barajar
+    public static void crarBaraja(int tipo) {
         baraja = new Baraja(tipo);
 
         baraja.barajar();
@@ -84,7 +89,7 @@ public class Juego {
     public static void cartaAlta() {
         int puntosJ1 = 0,puntosJ2 = 0;
         Carta j1,j2;
-        crarBaraja();
+        elegirTipo();
 
         do {
             System.out.println("\nJugador 1");
