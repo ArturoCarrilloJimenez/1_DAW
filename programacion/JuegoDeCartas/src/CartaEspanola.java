@@ -40,6 +40,6 @@ public class CartaEspanola extends Carta {
                     break;
         }
 
-        return ("CartaEspanola: " + valor + " de " + palo);
+        return (valor + " de " + palo);
     }
 }

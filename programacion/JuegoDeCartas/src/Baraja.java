@@ -1,8 +1,12 @@
 public class Baraja {
 
     private Carta[] baraja;
+    private int posicionCarta;
 
     public Baraja(int tipo) {
+
+        posicionCarta = 0;
+
         switch (tipo) {
             case 1:
                 barajaPoker();
@@ -57,5 +61,38 @@ public class Baraja {
                 nCarta++;
             }
         }
+    }
+
+    //Ordena de forma aleatoria el array
+    public void barajar() {
+        int posicion;
+
+        for (int i = 0;i < baraja.length;i++) {
+            //Si el numero salido es menor que la posicion la cual se va a guardar se eligira otro numero
+            do {
+                posicion = (int)(Math.random() * baraja.length);
+            } while (posicion < i);
+
+            //Guarda en una carta temporal el objeto elegido
+            Carta cartaTemporal = baraja[i];
+
+            //Intercanvian los objetos
+            baraja[i] = baraja[posicion];
+            baraja[posicion] = cartaTemporal;   
+        }
+    }
+
+    //Devuelve la sigiente carta y esta no puede volver a aparecer
+    public Carta siguiente() {
+        Carta cartaActual = null;
+
+        if (posicionCarta < baraja.length) {
+            cartaActual = baraja[posicionCarta];
+            baraja[posicionCarta] = null;
+        }
+
+        posicionCarta++;
+
+        return cartaActual;
     }
 }

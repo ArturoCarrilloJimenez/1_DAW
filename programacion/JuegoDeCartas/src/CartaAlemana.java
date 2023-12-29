@@ -43,6 +43,6 @@ public class CartaAlemana extends Carta {
                     break;
         }
 
-        return "CartaAlemana: " + valor + " de " + palo;
+        return (valor + " de " + palo);
     }
 }

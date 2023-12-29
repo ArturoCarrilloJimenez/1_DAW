@@ -43,6 +43,6 @@ public class CartaPoker extends Carta{
                     break;
         }
 
-        return ("CartaPoker: " + valor + " de " + palo);
+        return (valor + " de " + palo);
     }
 }
