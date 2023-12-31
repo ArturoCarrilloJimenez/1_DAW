@@ -86,4 +86,16 @@ public class Carta {
 
         return mayor;
     }
+
+    //Indica cual tiene el mayor valor
+    public boolean mayorValor(Carta obj) {
+        boolean mayor = false;
+
+        if (this.getValor() > obj.getValor()) {
+            mayor = true;
+        }
+        else {mayor = false;}
+
+        return mayor;
+    }
 }

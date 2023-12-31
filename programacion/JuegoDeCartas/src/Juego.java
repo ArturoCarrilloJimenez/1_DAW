@@ -146,15 +146,15 @@ public class Juego {
     public static void brisca() {
         crarBaraja(2);
 
-        //Si turno es true elige el jugador, si el false elige el programa
-        boolean turno = true;
-        int ronda = 1,cartaElegida;
+        //Si turno es true es el jugador, si el false es el programa
+        boolean turno = true,primeroElegir = true;
+        int ronda = 1,cartaElegidaJugador = 0,cartaElegidaPrograma = 0;
         Carta muestra = baraja.siguiente();
         Carta[] cartasJugador = new Carta[3];
-        Carta[] cartaPrograma = new Carta[3];
+        Carta[] cartasPrograma = new Carta[3];
 
         inicializarCartas(cartasJugador);
-        inicializarCartas(cartaPrograma);
+        inicializarCartas(cartasPrograma);
 
         do {
             System.out.println("\nRonda " + ronda);
@@ -173,26 +173,78 @@ public class Juego {
 
                     do {
                         System.out.println("Elige una de tus cartas");
-                        cartaElegida = escribirNumero();
-                    } while ((cartaElegida < 1) || (cartaElegida > 3));
+                        cartaElegidaJugador = escribirNumero();
+                    } while ((cartaElegidaJugador < 1) || (cartaElegidaJugador > 3));
 
-                    cartasJugador[(cartaElegida - 1)] = cartaSigiente();
+                    //Le resto 1 para que funcione de manera correcta el array
+                    cartaElegidaJugador--;
+
+                    //El que primero elige canvia el validador
+                    if (elegir == 0) {
+                        primeroElegir = true;
+                    }
 
                     turno = false;
                 } else { //Elige el programa
                     System.out.println("\nEl programa ha elegido esta carta");
 
-                    cartaElegida = (int)(Math.random()*3); //Elige una carta aleatoria
-                    System.out.println(cartaPrograma[cartaElegida].toString());
+                    cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria
+                    System.out.println(cartasPrograma[cartaElegidaPrograma].toString());
 
-                    cartaPrograma[cartaElegida] = cartaSigiente();
+                    //El que primero elige canvia el validador
+                    if (elegir == 0) {
+                        primeroElegir = false;
+                    }
 
                     turno = true;
                 }
-                
+
                 elegir++;
             } while (elegir == 1);
-        } while (baraja.numCartas() >= 2);
 
+            turno = comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[cartaElegidaPrograma], muestra, primeroElegir);
+
+            //Coje carta primero el ganador de la ronda
+            if (turno) {
+                cartasJugador[cartaElegidaJugador] = cartaSigiente();
+                cartasPrograma[cartaElegidaPrograma] = cartaSigiente();
+            } else {
+                cartasPrograma[cartaElegidaPrograma] = cartaSigiente();
+                cartasJugador[cartaElegidaJugador] = cartaSigiente();
+            }
+
+            ronda++;
+        } while (baraja.numCartas() >= 2);
+    }
+
+    //Comparaciones para aberiguar que jugador gana la ronda
+    public static boolean comparacionBrisca(Carta jugador,Carta programa,Carta muestra,boolean primeroElegir) {
+        boolean ganadorRonda = true,turno = true;
+
+        //Comprara que alguno de los dos tenga muestra
+        if ((jugador.compararPalo(muestra)) || (programa.compararPalo(muestra))) {
+            //Si los dos pertenecen a la muestra gana la de mayor valor
+            if ((jugador.compararPalo(muestra)) && (programa.compararPalo(muestra))) {
+                ganadorRonda = jugador.mayorValor(programa);
+            } //Si el jugador no tiene muestra y el programa si gana la ronda
+            else if ((jugador.compararPalo(muestra) == false) && (programa.compararPalo(muestra))) {
+                ganadorRonda = false;
+            } //Si el jugador tiene muestra y el programa no gana la ronda
+            else if ((jugador.compararPalo(muestra)) && (programa.compararPalo(muestra) == false)) {
+                ganadorRonda = true;
+            }
+        } //Compara que las dos cartas sean del mismo palo(Gana el de mayor valor)
+        else if (jugador.compararPalo(programa)) {
+            ganadorRonda = jugador.mayorValor(programa);
+        } //Si no son del mismo palo gana el que primero aya elegido
+        else if (primeroElegir) {ganadorRonda = true;} else {ganadorRonda = false;}
+
+        //Muestra al usuario quien es el ganador de la ronda
+        if (ganadorRonda) {System.out.println("\nHas ganado la ronda");}
+        else {System.out.println("\nEl programa a ganado la ronda");}
+
+        turno = ganadorRonda;
+
+        return turno;
     }
 }
