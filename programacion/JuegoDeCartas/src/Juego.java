@@ -11,13 +11,18 @@ public class Juego {
 
         do {
             System.out.println("\nELIGE UNA OPCIÓN:");
-            System.out.println("1. Carta mas alta\n");
+            System.out.println("1. Carta mas alta");
+            System.out.println("2. Brisca");
+            System.out.println("0. Salir del juego\n");
 
             opcion = elegirOpcion();
 
             switch (opcion) {
                 case 1:
                     cartaAlta();
+                    break;
+                case 2:
+                    brisca();
                     break;
                 default:
                     break;
@@ -50,10 +55,10 @@ public class Juego {
             opciones = escribirNumero();
 
             //Mensaje de error si no ay ninguna opcion con ese numero
-            if ((opciones < 0) || (opciones > 1)) {
+            if ((opciones < 0) || (opciones > 2)) {
                 System.out.println("Error, solo se pueden elegir las opciones mostradas anteriormente");
             }
-        } while ((opciones < 0) || (opciones > 1));
+        } while ((opciones < 0) || (opciones > 2));
 
         return opciones;
     }
@@ -78,8 +83,19 @@ public class Juego {
     //Crear baraja y barajar
     public static void crarBaraja(int tipo) {
         baraja = new Baraja(tipo);
-
         baraja.barajar();
+    }
+
+    //Inicializa cartas con la sigiente de la baraja
+    public static void inicializarCartas(Carta[] cartasJuego) {
+        for (int i = 0;i < cartasJuego.length;i++) {
+            cartasJuego[i] = baraja.siguiente();
+        }
+    }
+
+    //Retorna la sigiente carta de la baraja
+    public static Carta cartaSigiente() {
+        return baraja.siguiente();
     }
 
     //Opcion 1 Carta mas alta
@@ -89,6 +105,7 @@ public class Juego {
     public static void cartaAlta() {
         int puntosJ1 = 0,puntosJ2 = 0;
         Carta j1,j2;
+
         elegirTipo();
 
         do {
@@ -119,5 +136,63 @@ public class Juego {
         } else {
             System.out.println("\nHa ganado Jugador 2");
         }
+    }
+
+    //Opcion 2 Brisca
+    //Se reparten 3 cartas a cada jugador y se saca una muestra
+    //En cada ronda cada jugador elige una carta y gana el que moyor valor tenga del mismo palo o tenga una carta del palo de la muestra
+    //Cada jugador tiene que seguir las reglas del brisca para poder ganar
+    //Gana la partida el que mas puntos tenga
+    public static void brisca() {
+        crarBaraja(2);
+
+        //Si turno es true elige el jugador, si el false elige el programa
+        boolean turno = true;
+        int ronda = 1,cartaElegida;
+        Carta muestra = baraja.siguiente();
+        Carta[] cartasJugador = new Carta[3];
+        Carta[] cartaPrograma = new Carta[3];
+
+        inicializarCartas(cartasJugador);
+        inicializarCartas(cartaPrograma);
+
+        do {
+            System.out.println("\nRonda " + ronda);
+            System.out.println("Muestra: "+muestra.toString());
+            
+            System.out.println("\nTus cartas");
+            for (int i = 0;i < cartasJugador.length;i++) {
+                System.out.println((i + 1) + " - " + cartasJugador[i].toString());
+            }
+
+            int elegir = 0;
+
+            do {
+                if (turno) { //Elige el jugador
+                    System.out.println("\nQue cartas quieres elegir");
+
+                    do {
+                        System.out.println("Elige una de tus cartas");
+                        cartaElegida = escribirNumero();
+                    } while ((cartaElegida < 1) || (cartaElegida > 3));
+
+                    cartasJugador[(cartaElegida - 1)] = cartaSigiente();
+
+                    turno = false;
+                } else { //Elige el programa
+                    System.out.println("\nEl programa ha elegido esta carta");
+
+                    cartaElegida = (int)(Math.random()*3); //Elige una carta aleatoria
+                    System.out.println(cartaPrograma[cartaElegida].toString());
+
+                    cartaPrograma[cartaElegida] = cartaSigiente();
+
+                    turno = true;
+                }
+                
+                elegir++;
+            } while (elegir == 1);
+        } while (baraja.numCartas() >= 2);
+
     }
 }

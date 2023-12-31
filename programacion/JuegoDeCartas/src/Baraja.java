@@ -3,6 +3,9 @@ public class Baraja {
     private Carta[] baraja;
     private int posicionCarta, tipo;
 
+    public Baraja() {
+    }
+
     public Baraja(int tipo) {
         this.tipo = tipo;
 
