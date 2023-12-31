@@ -28,6 +28,9 @@ public class Baraja {
             case 3:
                 barajaAlemana();
                 break;
+            case 4:
+                barajaBrisca();
+                break;
             default:
                 break;
         }
@@ -53,7 +56,22 @@ public class Baraja {
         
         for (int palo = 1; palo <= 4; palo++) {
             for (int valor = 1; valor <= 12; valor++) {
-                baraja[nCarta] = new CartaEspanola(valor, palo);
+                baraja[nCarta] = new CartaEspanola(valor, palo,0);
+                nCarta++;
+
+                if (valor == 7) {valor = 9;}
+            }
+        }
+    }
+
+    //Inicializa la baraja de espanola para la brisca
+    private void barajaBrisca() {
+        baraja = new Carta[40];
+        int nCarta = 0;
+        
+        for (int palo = 1; palo <= 4; palo++) {
+            for (int valor = 1; valor <= 12; valor++) {
+                baraja[nCarta] = new CartaEspanola(valor, palo,1);
                 nCarta++;
 
                 if (valor == 7) {valor = 9;}

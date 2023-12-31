@@ -144,7 +144,7 @@ public class Juego {
     //Cada jugador tiene que seguir las reglas del brisca para poder ganar
     //Gana la partida el que mas puntos tenga
     public static void brisca() {
-        crarBaraja(2);
+        crarBaraja(4);
 
         //Si turno es true es el jugador, si el false es el programa
         boolean turno = true,primeroElegir = true;
@@ -225,6 +225,7 @@ public class Juego {
             ronda++;
         } while (baraja.numCartas() >= 2);
 
+        //Fin de la brisca
         System.out.println("\nPuntos del jugador = " + puntosJugador);
         System.out.println("Puntos del programa = " + puntosPrograma);
 
@@ -275,10 +276,7 @@ public class Juego {
     public static int puntuacionRondaBrisca(Carta jugador,Carta programa) {
         int puntuacion = 0;
 
-        CartaEspanola c1 = (CartaEspanola)jugador;
-        CartaEspanola c2 = (CartaEspanola)programa;
-
-        puntuacion = c1.getPuntos() + c2.getPuntos();
+        puntuacion = jugador.getPuntos() + jugador.getPuntos();
 
         return puntuacion;
     }

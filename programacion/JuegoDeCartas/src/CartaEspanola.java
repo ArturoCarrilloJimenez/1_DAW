@@ -1,8 +1,16 @@
 public class CartaEspanola extends Carta {
 
-    public CartaEspanola(int valor, int palo) {
+    public CartaEspanola(int valor, int palo,int tipo) {
         super(valor,palo);
-        puntosBrisca();
+        
+        switch (tipo) {
+            case 1:
+                puntosBrisca();
+                break;
+                
+            default:
+                break;
+        }
     }
 
     public String toString() {
