@@ -1,11 +1,12 @@
 public class Carta {
 
-    private int valor,palo;
+    private int valor,palo,puntos;
 
     //Costructor
     public Carta(int valor, int palo) {
         this.valor = valor;
         this.palo = palo;
+        this.puntos = valor;
     }
 
     //Getter and Setter
@@ -23,6 +24,14 @@ public class Carta {
 
     public void setPalo(int palo) {
         this.palo = palo;
+    }
+    
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
     }
 
     //Compara si es el mismo abjeto
@@ -67,6 +76,18 @@ public class Carta {
         return equals;
     }
 
+    //Compara si tiene 0 puntos las 2 cartas
+    public boolean sinPuntos(Carta obj) {
+        boolean equals = false;
+
+        if ((obj.getPuntos() == 0) && (this.getPuntos() == 0)) {
+            equals = true;
+        }
+        else {equals = false;}
+
+        return equals;
+    }
+
     //Si el valor es igual se comparan el palo
     public boolean mayorQue(Carta obj) {
         boolean mayor = false;
@@ -92,6 +113,18 @@ public class Carta {
         boolean mayor = false;
 
         if (this.getValor() > obj.getValor()) {
+            mayor = true;
+        }
+        else {mayor = false;}
+
+        return mayor;
+    }
+
+    //Indica cual tiene el mayor puntaje
+    public boolean mayorPuntaje(Carta obj) {
+        boolean mayor = false;
+
+        if (this.getPuntos() > obj.getPuntos()) {
             mayor = true;
         }
         else {mayor = false;}

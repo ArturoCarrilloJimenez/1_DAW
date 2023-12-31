@@ -2,6 +2,7 @@ public class CartaEspanola extends Carta {
 
     public CartaEspanola(int valor, int palo) {
         super(valor,palo);
+        puntosBrisca();
     }
 
     public String toString() {
@@ -41,5 +42,29 @@ public class CartaEspanola extends Carta {
         }
 
         return (valor + " de " + palo);
+    }
+
+    public void puntosBrisca() {
+        switch (super.getValor()) {
+            case 1:
+                super.setPuntos(11);
+                break;
+            case 3:
+                super.setPuntos(10);
+                break;
+            case 10:
+                super.setPuntos(2);
+                break;
+            case 11:
+                super.setPuntos(3);
+                break;
+            case 12:
+                super.setPuntos(4);
+                break;
+
+            default:
+                super.setPuntos(0);
+                break;
+        }
     }
 }

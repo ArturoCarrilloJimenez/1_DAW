@@ -4,6 +4,7 @@ public class Baraja {
     private int posicionCarta, tipo;
 
     public Baraja() {
+        
     }
 
     public Baraja(int tipo) {

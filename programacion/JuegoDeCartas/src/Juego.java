@@ -148,7 +148,7 @@ public class Juego {
 
         //Si turno es true es el jugador, si el false es el programa
         boolean turno = true,primeroElegir = true;
-        int ronda = 1,cartaElegidaJugador = 0,cartaElegidaPrograma = 0;
+        int ronda = 1,cartaElegidaJugador = 0,cartaElegidaPrograma = 0,puntosJugador = 0,puntosPrograma = 0;
         Carta muestra = baraja.siguiente();
         Carta[] cartasJugador = new Carta[3];
         Carta[] cartasPrograma = new Carta[3];
@@ -204,6 +204,15 @@ public class Juego {
 
             turno = comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[cartaElegidaPrograma], muestra, primeroElegir);
 
+            //Muestra al usuario quien es el ganador de la ronda
+            if (turno) {
+                System.out.println("\nHas ganado la ronda");
+                puntosJugador = puntosJugador + puntuacionRondaBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[cartaElegidaPrograma]);
+            } else {
+                System.out.println("\nEl programa a ganado la ronda");
+                puntosPrograma = puntosPrograma + puntuacionRondaBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[cartaElegidaPrograma]);
+            }
+
             //Coje carta primero el ganador de la ronda
             if (turno) {
                 cartasJugador[cartaElegidaJugador] = cartaSigiente();
@@ -215,17 +224,33 @@ public class Juego {
 
             ronda++;
         } while (baraja.numCartas() >= 2);
+
+        System.out.println("\nPuntos del jugador = " + puntosJugador);
+        System.out.println("Puntos del programa = " + puntosPrograma);
+
+        if (puntosJugador == puntosPrograma) {
+            System.out.println("\nEnhorabuena has empatado");
+        } else if (puntosJugador > puntosPrograma) {
+            System.out.println("\nFelicidades, has ganado");
+        } else {
+            System.out.println("\nLo siento, has perdido");
+        }
     }
 
     //Comparaciones para aberiguar que jugador gana la ronda
     public static boolean comparacionBrisca(Carta jugador,Carta programa,Carta muestra,boolean primeroElegir) {
-        boolean ganadorRonda = true,turno = true;
+        boolean ganadorRonda = true;
 
         //Comprara que alguno de los dos tenga muestra
         if ((jugador.compararPalo(muestra)) || (programa.compararPalo(muestra))) {
             //Si los dos pertenecen a la muestra gana la de mayor valor
             if ((jugador.compararPalo(muestra)) && (programa.compararPalo(muestra))) {
-                ganadorRonda = jugador.mayorValor(programa);
+                //Si no tiene puntos las 2 cartas gana la de mayor valor
+                if ((jugador.sinPuntos(programa))) {
+                    ganadorRonda = jugador.mayorValor(programa);
+                } else { //Si tiene puntaje gana el me moyor puntuacion
+                    ganadorRonda = jugador.mayorPuntaje(programa);
+                }
             } //Si el jugador no tiene muestra y el programa si gana la ronda
             else if ((jugador.compararPalo(muestra) == false) && (programa.compararPalo(muestra))) {
                 ganadorRonda = false;
@@ -235,16 +260,26 @@ public class Juego {
             }
         } //Compara que las dos cartas sean del mismo palo(Gana el de mayor valor)
         else if (jugador.compararPalo(programa)) {
-            ganadorRonda = jugador.mayorValor(programa);
+            //Si no tiene puntos las 2 cartas gana la de mayor valor
+            if ((jugador.sinPuntos(programa))) {
+                ganadorRonda = jugador.mayorValor(programa);
+            } else { //Si tiene puntaje gana el me moyor puntuacion
+                ganadorRonda = jugador.mayorPuntaje(programa);
+            }
         } //Si no son del mismo palo gana el que primero aya elegido
         else if (primeroElegir) {ganadorRonda = true;} else {ganadorRonda = false;}
 
-        //Muestra al usuario quien es el ganador de la ronda
-        if (ganadorRonda) {System.out.println("\nHas ganado la ronda");}
-        else {System.out.println("\nEl programa a ganado la ronda");}
+        return ganadorRonda;
+    }
 
-        turno = ganadorRonda;
+    public static int puntuacionRondaBrisca(Carta jugador,Carta programa) {
+        int puntuacion = 0;
 
-        return turno;
+        CartaEspanola c1 = (CartaEspanola)jugador;
+        CartaEspanola c2 = (CartaEspanola)programa;
+
+        puntuacion = c1.getPuntos() + c2.getPuntos();
+
+        return puntuacion;
     }
 }
