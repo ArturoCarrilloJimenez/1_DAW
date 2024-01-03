@@ -188,13 +188,28 @@ public class Juego {
                 } else { //Elige el programa
                     System.out.println("\nEl programa ha elegido esta carta");
 
-                    cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria
-                    System.out.println(cartasPrograma[cartaElegidaPrograma].toString());
-
+                    //Elige carta
                     //El que primero elige canvia el validador
                     if (elegir == 0) {
+                        cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria
                         primeroElegir = false;
                     }
+                    else { //Elige la carta ganadora en caso de que el usuario eliga carta primero
+                        if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[0], muestra, primeroElegir)) {
+                            cartaElegidaPrograma = 0;
+                        }
+                        else if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[1], muestra, primeroElegir)) {
+                            cartaElegidaPrograma = 1;
+                        }
+                        else if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[2], muestra, primeroElegir)) {
+                            cartaElegidaPrograma = 2;
+                        }
+                        else {
+                            cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria//
+                        }
+                    }
+                    
+                    System.out.println(cartasPrograma[cartaElegidaPrograma].toString());
 
                     turno = true;
                 }
@@ -239,6 +254,7 @@ public class Juego {
     }
 
     //Comparaciones para aberiguar que jugador gana la ronda
+    //true gana el jugador, folse gana el programa
     public static boolean comparacionBrisca(Carta jugador,Carta programa,Carta muestra,boolean primeroElegir) {
         boolean ganadorRonda = true;
 
