@@ -162,11 +162,14 @@ public class Juego {
             
             System.out.println("\nTus cartas");
             for (int i = 0;i < cartasJugador.length;i++) {
-                System.out.println((i + 1) + " - " + cartasJugador[i].toString());
+                if (cartasJugador[i] != null) {
+                    System.out.println((i + 1) + " - " + cartasJugador[i].toString());
+                } else {System.out.println((i + 1) + " - ");}
             }
 
             int elegir = 0;
 
+            //Bucle que realiza la elecionon de las cartas para la ronda
             do {
                 if (turno) { //Elige el jugador
                     System.out.println("\nQue cartas quieres elegir");
@@ -174,7 +177,7 @@ public class Juego {
                     do {
                         System.out.println("Elige una de tus cartas");
                         cartaElegidaJugador = escribirNumero();
-                    } while ((cartaElegidaJugador < 1) || (cartaElegidaJugador > 3));
+                    } while ((cartaElegidaJugador < 1) || (cartaElegidaJugador > 3) || cartasJugador[cartaElegidaJugador - 1] == null);
 
                     //Le resto 1 para que funcione de manera correcta el array
                     cartaElegidaJugador--;
@@ -191,21 +194,31 @@ public class Juego {
                     //Elige carta
                     //El que primero elige canvia el validador
                     if (elegir == 0) {
-                        cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria
+                        do {
+                            cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria//
+                        } while (cartasPrograma[cartaElegidaPrograma] == null);
                         primeroElegir = false;
                     }
                     else { //Elige la carta ganadora en caso de que el usuario eliga carta primero
-                        if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[0], muestra, primeroElegir)) {
-                            cartaElegidaPrograma = 0;
+                        if (cartasPrograma[0] != null) {
+                            if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[0], muestra, primeroElegir)) {
+                               cartaElegidaPrograma = 0; 
+                            }
                         }
-                        else if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[1], muestra, primeroElegir)) {
-                            cartaElegidaPrograma = 1;
+                        else if (cartasPrograma[1] != null) {
+                            if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[1], muestra, primeroElegir)) {
+                                cartaElegidaPrograma = 1;
+                            }
                         }
-                        else if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[2], muestra, primeroElegir)) {
-                            cartaElegidaPrograma = 2;
+                        else if (cartasPrograma[2] != null) {
+                            if (!comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[2], muestra, primeroElegir)) {
+                                cartaElegidaPrograma = 2;
+                            }
                         }
                         else {
-                            cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria//
+                            do {
+                                cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria//
+                            } while (cartasPrograma[cartaElegidaPrograma] == null);
                         }
                     }
                     
@@ -227,18 +240,30 @@ public class Juego {
                 System.out.println("\nEl programa a ganado la ronda");
                 puntosPrograma = puntosPrograma + puntuacionRondaBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[cartaElegidaPrograma]);
             }
-
-            //Coje carta primero el ganador de la ronda
-            if (turno) {
-                cartasJugador[cartaElegidaJugador] = cartaSigiente();
-                cartasPrograma[cartaElegidaPrograma] = cartaSigiente();
+            
+            if (baraja.numCartas() >= 1) {
+                //Coje carta primero el ganador de la ronda
+                //Cuando queda una unica carta en la barraja el que pierde la ronda se lleva la muestra
+                if (turno) {
+                    cartasJugador[cartaElegidaJugador] = cartaSigiente();
+                    if (baraja.numCartas() == 0) {
+                        cartasPrograma[cartaElegidaPrograma].clone(muestra);
+                    }
+                    else {cartasPrograma[cartaElegidaPrograma] = cartaSigiente();}
+                } else {
+                    cartasPrograma[cartaElegidaPrograma] = cartaSigiente();
+                    if (baraja.numCartas() == 0) {
+                        cartasJugador[cartaElegidaJugador].clone(muestra);
+                    }
+                    else {cartasJugador[cartaElegidaJugador] = cartaSigiente();}
+                }
             } else {
-                cartasPrograma[cartaElegidaPrograma] = cartaSigiente();
-                cartasJugador[cartaElegidaJugador] = cartaSigiente();
+                cartasPrograma[cartaElegidaPrograma] = null;
+                cartasJugador[cartaElegidaJugador] = null;
             }
 
             ronda++;
-        } while (baraja.numCartas() >= 2);
+        } while (cartasJugador[0] != null || cartasJugador[1] != null  || cartasJugador[2] != null);
 
         //Fin de la brisca
         System.out.println("\nPuntos del jugador = " + puntosJugador);
