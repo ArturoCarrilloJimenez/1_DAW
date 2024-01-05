@@ -217,7 +217,7 @@ public class Juego {
                         }
                         else {
                             do {
-                                cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria//
+                                cartaElegidaPrograma = (int)(Math.random()*3); //Elige una carta aleatoria
                             } while (cartasPrograma[cartaElegidaPrograma] == null);
                         }
                     }
@@ -231,6 +231,7 @@ public class Juego {
             } while (elegir == 1);
 
             turno = comparacionBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[cartaElegidaPrograma], muestra, primeroElegir);
+            System.out.println(puntuacionRondaBrisca(cartasJugador[cartaElegidaJugador], cartasPrograma[cartaElegidaPrograma]));
 
             //Muestra al usuario quien es el ganador de la ronda
             if (turno) {
@@ -244,22 +245,29 @@ public class Juego {
             if (baraja.numCartas() >= 1) {
                 //Coje carta primero el ganador de la ronda
                 //Cuando queda una unica carta en la barraja el que pierde la ronda se lleva la muestra
+                //Cuando ya se han llevado la muestra se ponen las cartas usadas a null y se sige jugando con las que queden
                 if (turno) {
                     cartasJugador[cartaElegidaJugador] = cartaSigiente();
                     if (baraja.numCartas() == 0) {
-                        cartasPrograma[cartaElegidaPrograma].clone(muestra);
+                        muestra.clone(cartasPrograma[cartaElegidaPrograma]);
                     }
                     else {cartasPrograma[cartaElegidaPrograma] = cartaSigiente();}
                 } else {
                     cartasPrograma[cartaElegidaPrograma] = cartaSigiente();
                     if (baraja.numCartas() == 0) {
-                        cartasJugador[cartaElegidaJugador].clone(muestra);
+                        muestra.clone(cartasJugador[cartaElegidaJugador]);
                     }
                     else {cartasJugador[cartaElegidaJugador] = cartaSigiente();}
                 }
             } else {
-                cartasPrograma[cartaElegidaPrograma] = null;
-                cartasJugador[cartaElegidaJugador] = null;
+                if (turno) {
+                    cartasJugador[cartaElegidaJugador] = null;
+                    cartasPrograma[cartaElegidaPrograma] = null;
+                }
+                else {
+                    cartasPrograma[cartaElegidaPrograma] = null;
+                    cartasJugador[cartaElegidaJugador] = null;
+                }
             }
 
             ronda++;
@@ -317,7 +325,7 @@ public class Juego {
     public static int puntuacionRondaBrisca(Carta jugador,Carta programa) {
         int puntuacion = 0;
 
-        puntuacion = jugador.getPuntos() + jugador.getPuntos();
+        puntuacion = jugador.getPuntos() + programa.getPuntos();
 
         return puntuacion;
     }
