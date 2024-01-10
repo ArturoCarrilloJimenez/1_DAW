@@ -9,7 +9,11 @@ public class ArrayCreciente {
     }
 
     public ArrayCreciente() {
-        //Inicializa el array
+        inicializarArray();
+    }
+
+    //Inicializa el array
+    public void inicializarArray() {
         for (int i = 0;i < 10;i++) {
             arrayList.add((int)((Math.random()*100) + 1));
 
@@ -31,19 +35,28 @@ public class ArrayCreciente {
             }
         }
     }
-
+    // Introduce un numero a la posicion en lo que siga el array ordenado
     public void introducirNumero(int num) {
         boolean nIntroducido = true;
         int i = 0;
         do {
+            //Si es mas pequeño que la primera posicion lo pone en primer lugar
             if (arrayList.get(0) > num) {
                 arrayList.add(0,num);
                 nIntroducido = false;
-            } 
+            } //Si esta entre dos numeros lo mete entre los dos
             else if (((arrayList.get(i) < num) && (arrayList.get(i + 1) > num))) {
                 arrayList.add(i + 1,num);
                 nIntroducido = false;
+            } //Si ya existe lo mete detras
+            else if (arrayList.get(i) == num) {
+                arrayList.add(i + 1,num);
+                nIntroducido = false;
             }
+
+            //Elimina la ultima celda
+            arrayList.remove(10);
+
             i++;
         } while (nIntroducido);
     }
@@ -56,8 +69,9 @@ public class ArrayCreciente {
         do {
             ArrayList<Integer> arrayList = arrayCreciente.getArrayList();
 
-            for (int i = 0;i < 10;i++) {
-                System.out.print(arrayList.get(i) + "   ");
+            //Bucle for-each
+            for (int elemento : arrayList) {
+                System.out.print(elemento + "   ");
             }
 
             do {
