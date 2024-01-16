@@ -4,12 +4,11 @@ public class Palindromo {
 
     //Invierte la cadena
     private String invertir(String original) {
-        StringBuilder cadena = new StringBuilder();
+        StringBuilder cadenaInv = new StringBuilder(original);
 
-        for (int i = (original.length() - 1);i >= 0;i--) {
-            cadena.append(original.charAt(i));
-        }
-        return cadena.toString();
+        cadenaInv = cadenaInv.reverse();
+
+        return cadenaInv.toString();
     }
 
     //Elimina caracteres extraños como valores extraños, acentos y espacios
@@ -20,7 +19,7 @@ public class Palindromo {
         cadena = cadena.toLowerCase();
     
         //Canvia valores extraños a un espacio
-        char[] valores = {',',';','.',':','-','_','?','¿','¡','!'};
+        char[] valores = {',',';','.',':','-','_','?','¿','¡','!','(',')'};
         
         for (int i = 0; i < valores.length; i++) {
             cadena = cadena.replace(valores[i], ' ');
@@ -37,17 +36,20 @@ public class Palindromo {
         //Elimina los espacios
         cadena = cadena.replaceAll(" ", "");
     
-        System.out.println(cadena);
         return cadena;
     }
     
     //Balida que al derecho y invertido sean iguales
     public boolean esPalindromo(String original) {
         String cadenaNormal = original;
-        String cadenaInvertida = invertir(original);
+        String cadenaInvertida;
 
         cadenaNormal = eliminarCaracterRaro(cadenaNormal);
-        cadenaInvertida = eliminarCaracterRaro(cadenaInvertida);
+        
+        cadenaInvertida = invertir(cadenaNormal);
+
+        System.out.println(cadenaNormal);
+        System.out.println(cadenaInvertida);
 
         return cadenaNormal.equals(cadenaInvertida);
     }
@@ -62,5 +64,7 @@ public class Palindromo {
         
         if (palindromo.esPalindromo(cadena)) {System.out.println("Felicidades, esta frase si es un palidromo");} 
         else {System.out.println("Esta frase no es un palidromo");}
+
+        scanner.close();
     }
 }
