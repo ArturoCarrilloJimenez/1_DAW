@@ -36,5 +36,6 @@ public class DescomponerTexto {
             // Si se produce algún error durante el procesamiento del archivo, lo tratamos aquí
             System.err.println("Error al escribir en el archivo: " + e.getMessage());
         }
+        scanner.close();
     }
 }

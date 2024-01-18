@@ -1,0 +1,1 @@
+ c:; cd 'c:\Users\artur\OneDrive\Escritorio\proyectos programacion\GITHAB\1_DAW\programacion\ej_tema_6\ContarLetras'; & 'C:\Program Files\Java\jdk-17\bin\java.exe' '-XX:+ShowCodeDetailsInExceptionMessages' '-cp' 'C:\Users\artur\OneDrive\Escritorio\proyectos programacion\GITHAB\1_DAW\programacion\ej_tema_6\ContarLetras\bin' 'ContarLetras' 

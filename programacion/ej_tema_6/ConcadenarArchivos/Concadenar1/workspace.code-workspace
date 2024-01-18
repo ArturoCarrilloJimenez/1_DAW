@@ -1,0 +1,14 @@
+{
+	"folders": [],
+	"settings": {
+		"java.project.sourcePaths": [
+			"Concadenar1"
+		],
+		"java.project.outputPath": "bin",
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar"
+		],
+		"java.debug.settings.onBuildFailureProceed": true,
+		"liveServer.settings.multiRootWorkspaceName": "lenguaje de marcas"
+	}
+}
